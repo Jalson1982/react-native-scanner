@@ -14,10 +14,6 @@ buildscript {
   }
 }
 
-def isNewArchitectureEnabled() {
-  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
-}
-
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
@@ -44,7 +40,7 @@ def codegenViewModuleName = {
 
 def appProject = rootProject.allprojects.find { it.plugins.hasPlugin('com.android.application') }
 
-if (isNewArchitectureEnabled()) {
+if (true) {
   apply plugin: "com.facebook.react"
 }
 
@@ -86,9 +82,9 @@ android {
   defaultConfig {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
-    buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-    buildConfigField "String", "CODEGEN_MODULE_REGISTRATION", (isNewArchitectureEnabled() && registrationCompat ? "\"${codegenViewModuleName}_registration\"" : "null")
-    if (isNewArchitectureEnabled() && registrationCompat) {
+    buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", "true"
+    buildConfigField "String", "CODEGEN_MODULE_REGISTRATION", "\"${codegenViewModuleName}_registration\""
+    if (true && registrationCompat) {
       def reactAndroidProject = project(':ReactAndroid')
       externalNativeBuild {
         ndkBuild {
@@ -107,7 +103,7 @@ android {
       }
     }
   }
-  if (isNewArchitectureEnabled() && registrationCompat) {
+  if (true && registrationCompat) {
     // We configure the NDK build only if you decide to opt-in for the New Architecture.
     externalNativeBuild {
       ndkBuild {
@@ -132,7 +128,7 @@ android {
 
   sourceSets {
     main {
-      if (isNewArchitectureEnabled()) {
+      if (true) {
           java.srcDirs += [
             // This is needed to build Kotlin project with NewArch enabled
             "${project.buildDir}/generated/source/codegen/java"
@@ -175,7 +171,7 @@ dependencies {
   implementation 'com.google.mlkit:barcode-scanning:17.3.0'
 }
 
-if (isNewArchitectureEnabled()) {
+if (true) {
   react {
     jsRootDir = file("../src/")
     libraryName = codegenViewLibraryName
